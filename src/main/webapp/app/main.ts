@@ -24,6 +24,10 @@ import '../content/scss/vendor.scss';
 import AlertService from '@/shared/alert/alert.service';
 import ConfigurationService from '@/admin/configuration/configuration.service';
 
+import CategoryService from '@/entities/category/category.service';
+import ClientService from '@/entities/client/client.service';
+import ProductService from '@/entities/product/product.service';
+import OrderService from '@/entities/order/order.service';
 // jhipster-needle-add-entity-service-to-main-import - JHipster will import entities services here
 
 Vue.config.productionTip = false;
@@ -44,7 +48,6 @@ router.beforeEach((to, from, next) => {
   if (!to.matched.length) {
     next('/not-found');
   }
-
   if (to.meta && to.meta.authorities && to.meta.authorities.length > 0) {
     if (!accountService.hasAnyAuthority(to.meta.authorities)) {
       sessionStorage.setItem('requested-url', to.fullPath);
@@ -78,6 +81,10 @@ new Vue({
     logsService: () => new LogsService(),
     metricsService: () => new MetricsService(),
     alertService: () => alertService,
+    categoryService: () => new CategoryService(),
+    clientService: () => new ClientService(),
+    productService: () => new ProductService(),
+    orderService: () => new OrderService(),
     // jhipster-needle-add-entity-service-to-main - JHipster will import entities services here
     accountService: () => accountService
   },
