@@ -30,14 +30,13 @@ public class ClientDTO implements Serializable {
     @Size(min = 1, max = 30)
     private String phoneNumber;
 
-    
+
     @Lob
     private byte[] photo;
 
     private String photoContentType;
     @NotNull
     private String email;
-
 
     public Long getId() {
         return id;

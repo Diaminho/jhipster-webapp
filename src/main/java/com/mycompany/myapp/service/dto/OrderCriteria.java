@@ -31,6 +31,8 @@ public class OrderCriteria implements Serializable, Criteria {
 
     private LongFilter clientId;
 
+    private LongFilter productsId;
+
     public OrderCriteria(){
     }
 
@@ -38,6 +40,7 @@ public class OrderCriteria implements Serializable, Criteria {
         this.id = other.id == null ? null : other.id.copy();
         this.date = other.date == null ? null : other.date.copy();
         this.clientId = other.clientId == null ? null : other.clientId.copy();
+        this.productsId = other.productsId == null ? null : other.productsId.copy();
     }
 
     @Override
@@ -69,6 +72,14 @@ public class OrderCriteria implements Serializable, Criteria {
         this.clientId = clientId;
     }
 
+    public LongFilter getProductsId() {
+        return productsId;
+    }
+
+    public void setProductsId(LongFilter productsId) {
+        this.productsId = productsId;
+    }
+
 
     @Override
     public boolean equals(Object o) {
@@ -82,7 +93,8 @@ public class OrderCriteria implements Serializable, Criteria {
         return
             Objects.equals(id, that.id) &&
             Objects.equals(date, that.date) &&
-            Objects.equals(clientId, that.clientId);
+            Objects.equals(clientId, that.clientId) &&
+            Objects.equals(productsId, that.productsId);
     }
 
     @Override
@@ -90,7 +102,8 @@ public class OrderCriteria implements Serializable, Criteria {
         return Objects.hash(
         id,
         date,
-        clientId
+        clientId,
+        productsId
         );
     }
 
@@ -100,6 +113,7 @@ public class OrderCriteria implements Serializable, Criteria {
                 (id != null ? "id=" + id + ", " : "") +
                 (date != null ? "date=" + date + ", " : "") +
                 (clientId != null ? "clientId=" + clientId + ", " : "") +
+                (productsId != null ? "productsId=" + productsId + ", " : "") +
             "}";
     }
 

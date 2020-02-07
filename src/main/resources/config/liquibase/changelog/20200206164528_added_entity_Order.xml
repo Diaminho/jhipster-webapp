@@ -6,7 +6,7 @@
     xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.6.xsd
                         http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd">
 
-    
+
     <!--
         Added the entity Order.
     -->
@@ -27,6 +27,20 @@
     </changeSet>
 
     <changeSet id="20200206164528-1-relations" author="jhipster">
+
+        <createTable tableName="jhi_order_products">
+            <column name="products_id" type="bigint">
+                <constraints nullable="false"/>
+            </column>
+            <column name="order_id" type="bigint">
+                <constraints nullable="false"/>
+            </column>
+            <column name="quantity" type="int">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+
+        <addPrimaryKey columnNames="order_id, products_id" tableName="jhi_order_products"/>
 
     </changeSet>
     <!-- jhipster-needle-liquibase-add-changeset - JHipster will add changesets here, do not remove-->

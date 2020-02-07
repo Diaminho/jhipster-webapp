@@ -1,4 +1,5 @@
 import { ICategory } from '@/shared/model/category.model';
+import { IOrder } from '@/shared/model/order.model';
 
 export interface IProduct {
   id?: number;
@@ -7,6 +8,7 @@ export interface IProduct {
   photoContentType?: string;
   photo?: any;
   categories?: ICategory[];
+  orders?: IOrder[];
 }
 
 export class Product implements IProduct {
@@ -16,6 +18,7 @@ export class Product implements IProduct {
     public price?: number,
     public photoContentType?: string,
     public photo?: any,
-    public categories?: ICategory[]
+    public categories?: ICategory[],
+    public orders?: IOrder[]
   ) {}
 }

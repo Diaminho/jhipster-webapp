@@ -6,6 +6,8 @@ import javax.validation.constraints.*;
 
 import java.io.Serializable;
 import java.time.ZonedDateTime;
+import java.util.HashSet;
+import java.util.Set;
 
 /**
  * A Order.
@@ -28,6 +30,12 @@ public class Order implements Serializable {
     @ManyToOne
     @JsonIgnoreProperties("orders")
     private Client client;
+
+    @ManyToMany
+    @JoinTable(name = "jhi_order_products",
+               joinColumns = @JoinColumn(name = "order_id", referencedColumnName = "id"),
+               inverseJoinColumns = @JoinColumn(name = "products_id", referencedColumnName = "id"))
+    private Set<Product> products = new HashSet<>();
 
     // jhipster-needle-entity-add-field - JHipster will add fields here, do not remove
     public Long getId() {
@@ -62,6 +70,31 @@ public class Order implements Serializable {
 
     public void setClient(Client client) {
         this.client = client;
+    }
+
+    public Set<Product> getProducts() {
+        return products;
+    }
+
+    public Order products(Set<Product> products) {
+        this.products = products;
+        return this;
+    }
+
+    public Order addProducts(Product product) {
+        this.products.add(product);
+        product.getOrders().add(this);
+        return this;
+    }
+
+    public Order removeProducts(Product product) {
+        this.products.remove(product);
+        product.getOrders().remove(this);
+        return this;
+    }
+
+    public void setProducts(Set<Product> products) {
+        this.products = products;
     }
     // jhipster-needle-entity-add-getters-setters - JHipster will add getters and setters here, do not remove
 

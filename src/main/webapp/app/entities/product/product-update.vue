@@ -63,8 +63,8 @@
                             <option v-bind:value="getSelected(product.categories, categoryOption)" v-for="categoryOption in categories" :key="categoryOption.id">{{categoryOption.name}}</option>
                         </select>
                     </div>
-                    <div v-if="$v.product.categoriesId.$anyDirty && $v.product.categoriesId.$invalid">
-                        <small class="form-text text-danger" v-if="!$v.product.categoriesId.required">
+                    <div v-if="$v.product.categories.$anyDirty && $v.product.categories.$invalid">
+                        <small class="form-text text-danger" v-if="!$v.product.categories.required">
                             This field is required.
                         </small>
                     </div>

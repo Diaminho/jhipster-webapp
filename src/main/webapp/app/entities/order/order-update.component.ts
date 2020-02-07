@@ -9,6 +9,9 @@ import { DATE_TIME_LONG_FORMAT } from '@/shared/date/filters';
 import ClientService from '../client/client.service';
 import { IClient } from '@/shared/model/client.model';
 
+import ProductService from '../product/product.service';
+import { IProduct } from '@/shared/model/product.model';
+
 import AlertService from '@/shared/alert/alert.service';
 import { IOrder, Order } from '@/shared/model/order.model';
 import OrderService from './order.service';
@@ -32,6 +35,10 @@ export default class OrderUpdate extends Vue {
   @Inject('clientService') private clientService: () => ClientService;
 
   public clients: IClient[] = [];
+
+  @Inject('productService') private productService: () => ProductService;
+
+  public products: IProduct[] = [];
   public isSaving = false;
 
   beforeRouteEnter(to, from, next) {
@@ -41,6 +48,10 @@ export default class OrderUpdate extends Vue {
       }
       vm.initRelationships();
     });
+  }
+
+  created(): void {
+    this.order.products = [];
   }
 
   public save(): void {
@@ -108,5 +119,21 @@ export default class OrderUpdate extends Vue {
       .then(res => {
         this.clients = res.data;
       });
+    this.productService()
+      .retrieve()
+      .then(res => {
+        this.products = res.data;
+      });
+  }
+
+  public getSelected(selectedVals, option): any {
+    if (selectedVals) {
+      for (let i = 0; i < selectedVals.length; i++) {
+        if (option.id === selectedVals[i].id) {
+          return selectedVals[i];
+        }
+      }
+    }
+    return option;
   }
 }

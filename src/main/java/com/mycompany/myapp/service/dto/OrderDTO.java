@@ -2,6 +2,8 @@ package com.mycompany.myapp.service.dto;
 import java.time.ZonedDateTime;
 import javax.validation.constraints.*;
 import java.io.Serializable;
+import java.util.HashSet;
+import java.util.Set;
 import java.util.Objects;
 
 /**
@@ -15,7 +17,9 @@ public class OrderDTO implements Serializable {
     private ZonedDateTime date;
 
 
-    private Long clientId;
+    private ClientItem client;
+
+    private Set<ProductDTO> products = new HashSet<>();
 
     public Long getId() {
         return id;
@@ -33,12 +37,20 @@ public class OrderDTO implements Serializable {
         this.date = date;
     }
 
-    public Long getClientId() {
-        return clientId;
+    public ClientItem getClient() {
+        return client;
     }
 
-    public void setClientId(Long clientId) {
-        this.clientId = clientId;
+    public void setClient(ClientItem client) {
+        this.client = client;
+    }
+
+    public Set<ProductDTO> getProducts() {
+        return products;
+    }
+
+    public void setProducts(Set<ProductDTO> products) {
+        this.products = products;
     }
 
     @Override
@@ -67,7 +79,29 @@ public class OrderDTO implements Serializable {
         return "OrderDTO{" +
             "id=" + getId() +
             ", date='" + getDate() + "'" +
-            ", clientId=" + getClientId() +
+            ", client=" + getClient() +
             "}";
     }
+
+    public static class ClientItem{
+        private Long id;
+        private String abbName;
+
+        public Long getId() {
+            return id;
+        }
+
+        public void setId(Long id) {
+            this.id = id;
+        }
+
+        public String getAbbName() {
+            return abbName;
+        }
+
+        public void setAbbName(String abbName) {
+            this.abbName = abbName;
+        }
+    }
+
 }

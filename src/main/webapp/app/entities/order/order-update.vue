@@ -28,9 +28,15 @@
                     </div>
                     <div class="form-group">
                         <label class="form-control-label"  for="order-client">Client</label>
-                        <select class="form-control" id="order-client" name="client" v-model="order.clientId">
-                            <option v-bind:value="null"></option>
-                            <option v-bind:value="clientOption.id" v-for="clientOption in clients" :key="clientOption.id">{{clientOption.id}}</option>
+                        <select class="form-control" id="order-client" name="client" v-model="order.client">
+                            <option v-bind:value="{id: null}"></option>
+                            <option v-bind:value="{id: clientOption.id}" v-for="clientOption in clients" :key="clientOption.id">{{clientOption.lastName}}</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="order-products">Products</label>
+                        <select class="form-control" id="order-products" multiple name="products" v-model="order.products">
+                            <option v-bind:value="getSelected(order.products, productOption)" v-for="productOption in products" :key="productOption.id">{{productOption.title}}</option>
                         </select>
                     </div>
                 </div>

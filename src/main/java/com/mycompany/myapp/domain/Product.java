@@ -1,4 +1,5 @@
 package com.mycompany.myapp.domain;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
 import javax.validation.constraints.*;
@@ -44,6 +45,10 @@ public class Product implements Serializable {
                joinColumns = @JoinColumn(name = "product_id", referencedColumnName = "id"),
                inverseJoinColumns = @JoinColumn(name = "categories_id", referencedColumnName = "id"))
     private Set<Category> categories = new HashSet<>();
+
+    @ManyToMany(mappedBy = "products")
+    @JsonIgnore
+    private Set<Order> orders = new HashSet<>();
 
     // jhipster-needle-entity-add-field - JHipster will add fields here, do not remove
     public Long getId() {
@@ -129,6 +134,31 @@ public class Product implements Serializable {
 
     public void setCategories(Set<Category> categories) {
         this.categories = categories;
+    }
+
+    public Set<Order> getOrders() {
+        return orders;
+    }
+
+    public Product orders(Set<Order> orders) {
+        this.orders = orders;
+        return this;
+    }
+
+    public Product addOrders(Order order) {
+        this.orders.add(order);
+        order.getProducts().add(this);
+        return this;
+    }
+
+    public Product removeOrders(Order order) {
+        this.orders.remove(order);
+        order.getProducts().remove(this);
+        return this;
+    }
+
+    public void setOrders(Set<Order> orders) {
+        this.orders = orders;
     }
     // jhipster-needle-entity-add-getters-setters - JHipster will add getters and setters here, do not remove
 

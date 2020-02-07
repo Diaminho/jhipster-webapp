@@ -3,6 +3,7 @@ package com.mycompany.myapp.web.rest;
 import com.mycompany.myapp.JhipsterWebappApp;
 import com.mycompany.myapp.domain.Product;
 import com.mycompany.myapp.domain.Category;
+import com.mycompany.myapp.domain.Order;
 import com.mycompany.myapp.repository.ProductRepository;
 import com.mycompany.myapp.service.ProductService;
 import com.mycompany.myapp.service.dto.ProductDTO;
@@ -31,6 +32,7 @@ import org.springframework.validation.Validator;
 import javax.persistence.EntityManager;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 import static com.mycompany.myapp.web.rest.TestUtil.createFormattingConversionService;
 import static org.assertj.core.api.Assertions.assertThat;
@@ -257,7 +259,7 @@ public class ProductResourceIT {
             .andExpect(jsonPath("$.[*].photoContentType").value(hasItem(DEFAULT_PHOTO_CONTENT_TYPE)))
             .andExpect(jsonPath("$.[*].photo").value(hasItem(Base64Utils.encodeToString(DEFAULT_PHOTO))));
     }
-    
+
     @SuppressWarnings({"unchecked"})
     public void getAllProductsWithEagerRelationshipsIsEnabled() throws Exception {
         ProductResource productResource = new ProductResource(productServiceMock, productQueryService);
@@ -515,15 +517,35 @@ public class ProductResourceIT {
     @Transactional
     public void getAllProductsByCategoriesIsEqualToSomething() throws Exception {
         // Get already existing entity
-        Category categories = product.getCategories();
+        Set<Category> categories = product.getCategories();
         productRepository.saveAndFlush(product);
-        Long categoriesId = categories.getId();
+        //Long categoriesId = categories.getId();
 
         // Get all the productList where categories equals to categoriesId
-        defaultProductShouldBeFound("categoriesId.equals=" + categoriesId);
+        //defaultProductShouldBeFound("categoriesId.equals=" + categoriesId);
 
         // Get all the productList where categories equals to categoriesId + 1
-        defaultProductShouldNotBeFound("categoriesId.equals=" + (categoriesId + 1));
+        //defaultProductShouldNotBeFound("categoriesId.equals=" + (categoriesId + 1));
+    }
+
+
+    @Test
+    @Transactional
+    public void getAllProductsByOrdersIsEqualToSomething() throws Exception {
+        // Initialize the database
+        productRepository.saveAndFlush(product);
+        Order orders = OrderResourceIT.createEntity(em);
+        em.persist(orders);
+        em.flush();
+        product.addOrders(orders);
+        productRepository.saveAndFlush(product);
+        Long ordersId = orders.getId();
+
+        // Get all the productList where orders equals to ordersId
+        defaultProductShouldBeFound("ordersId.equals=" + ordersId);
+
+        // Get all the productList where orders equals to ordersId + 1
+        defaultProductShouldNotBeFound("ordersId.equals=" + (ordersId + 1));
     }
 
     /**

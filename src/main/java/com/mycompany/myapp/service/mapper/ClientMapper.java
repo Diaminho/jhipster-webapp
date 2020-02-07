@@ -5,6 +5,8 @@ import com.mycompany.myapp.service.dto.ClientDTO;
 
 import org.mapstruct.*;
 
+import java.util.Arrays;
+
 /**
  * Mapper for the entity {@link Client} and its DTO {@link ClientDTO}.
  */
@@ -15,6 +17,7 @@ public interface ClientMapper extends EntityMapper<ClientDTO, Client> {
     @Mapping(target = "orders", ignore = true)
     @Mapping(target = "removeOrders", ignore = true)
     Client toEntity(ClientDTO clientDTO);
+
 
     default Client fromId(Long id) {
         if (id == null) {

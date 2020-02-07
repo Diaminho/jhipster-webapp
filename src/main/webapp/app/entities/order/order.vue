@@ -38,8 +38,8 @@
                     </td>
                     <td>{{order.date | formatDate}}</td>
                     <td>
-                        <div v-if="order.clientId">
-                            <router-link :to="{name: 'ClientView', params: {clientId: order.clientId}}">{{order.clientId}}</router-link>
+                        <div v-if="order.client ? order.client.id: null">
+                            <router-link :to="{name: 'ClientView', params: {clientId: order.client.id}}">{{order.client.abbName}}</router-link>
                         </div>
                     </td>
                     <td class="text-right">
