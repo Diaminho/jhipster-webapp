@@ -27,11 +27,13 @@
                             </small>
                         </div>
                     </div>
-                    <div class="form-group">
+                    <div class="form-group" v-if="order.client">
                         <label class="form-control-label" for="order-client">Client</label>
-                        <select class="form-control" id="order-client" name="client" v-model="order.client">
-                            <option v-bind:value="{id: null}"></option>
-                            <option v-bind:value="{id: clientOption.id}" v-for="clientOption in clients" :key="clientOption.id">{{clientOption.lastName}} {{clientOption.firstName}}</option>
+                        <select class="form-control" id="order-client" name="client" v-model="order.client.id">
+                            <option v-bind:value="null"></option>
+                            <option v-bind:value="clientOption.id" v-for="clientOption in clients" :key="clientOption.id">{{clientOption.lastName}}
+                                {{clientOption.firstName}}
+                            </option>
                         </select>
                     </div>
                     <dt v-if="orderProducts">

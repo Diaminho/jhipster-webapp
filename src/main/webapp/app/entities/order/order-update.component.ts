@@ -130,7 +130,11 @@ export default class OrderUpdate extends Vue {
       .find(orderId)
       .then(res => {
         res.date = new Date(res.date);
+        if (!res['client']) {
+          res['client'] = {};
+        }
         this.order = res;
+        console.log('order: ', res);
       });
   }
 
