@@ -8,15 +8,15 @@ import org.mapstruct.*;
 /**
  * Mapper for the entity {@link Order} and its DTO {@link OrderDTO}.
  */
-@Mapper(componentModel = "spring", uses = {ClientMapper.class, ProductMapper.class})
+@Mapper(componentModel = "spring", uses = {ClientMapper.class})
 public interface OrderMapper extends EntityMapper<OrderDTO, Order> {
 
     @Mapping(source = "client", target = "client")
     OrderDTO toDto(Order order);
 
-
     @Mapping(source = "client", target = "client")
-    @Mapping(target = "removeProducts", ignore = true)
+    @Mapping(target = "orderProducts", ignore = true)
+    @Mapping(target = "removeOrderProducts", ignore = true)
     Order toEntity(OrderDTO orderDTO);
 
     default Order fromId(Long id) {
@@ -28,12 +28,12 @@ public interface OrderMapper extends EntityMapper<OrderDTO, Order> {
         return order;
     }
 
-    default OrderDTO.ClientItem clientToClientItem(Client client) {
+    default OrderDTO.Item clientToItem(Client client) {
         if ( client == null ) {
             return null;
         }
 
-        OrderDTO.ClientItem clientItem = new OrderDTO.ClientItem();
+        OrderDTO.Item clientItem = new OrderDTO.Item();
 
         clientItem.setId( client.getId() );
         String abbName = client.getLastName() + " " +

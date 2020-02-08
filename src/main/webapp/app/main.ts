@@ -28,6 +28,7 @@ import CategoryService from '@/entities/category/category.service';
 import ClientService from '@/entities/client/client.service';
 import ProductService from '@/entities/product/product.service';
 import OrderService from '@/entities/order/order.service';
+import OrderProductService from '@/entities/order-product/order-product.service';
 // jhipster-needle-add-entity-service-to-main-import - JHipster will import entities services here
 
 Vue.config.productionTip = false;
@@ -85,6 +86,7 @@ new Vue({
     clientService: () => new ClientService(),
     productService: () => new ProductService(),
     orderService: () => new OrderService(),
+    orderProductService: () => new OrderProductService(),
     // jhipster-needle-add-entity-service-to-main - JHipster will import entities services here
     accountService: () => accountService
   },

@@ -38,7 +38,7 @@
                     </td>
                     <td>{{order.date | formatDate}}</td>
                     <td>
-                        <div v-if="order.client ? order.client.id: null">
+                        <div v-if="order.client">
                             <router-link :to="{name: 'ClientView', params: {clientId: order.client.id}}">{{order.client.abbName}}</router-link>
                         </div>
                     </td>

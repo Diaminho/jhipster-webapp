@@ -8,8 +8,8 @@ import { numeric, required, minLength, maxLength } from 'vuelidate/lib/validator
 import CategoryService from '../category/category.service';
 import { ICategory } from '@/shared/model/category.model';
 
-import OrderService from '../order/order.service';
-import { IOrder } from '@/shared/model/order.model';
+import OrderProductService from '../order-product/order-product.service';
+import { IOrderProduct } from '@/shared/model/order-product.model';
 
 import AlertService from '@/shared/alert/alert.service';
 import { IProduct, Product } from '@/shared/model/product.model';
@@ -46,9 +46,9 @@ export default class ProductUpdate extends mixins(JhiDataUtils) {
 
   public categories: ICategory[] = [];
 
-  @Inject('orderService') private orderService: () => OrderService;
+  @Inject('orderProductService') private orderProductService: () => OrderProductService;
 
-  public orders: IOrder[] = [];
+  public orderProducts: IOrderProduct[] = [];
   public isSaving = false;
 
   beforeRouteEnter(to, from, next) {
@@ -119,10 +119,10 @@ export default class ProductUpdate extends mixins(JhiDataUtils) {
       .then(res => {
         this.categories = res.data;
       });
-    this.orderService()
+    this.orderProductService()
       .retrieve()
       .then(res => {
-        this.orders = res.data;
+        this.orderProducts = res.data;
       });
   }
 

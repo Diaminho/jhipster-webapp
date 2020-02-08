@@ -2,8 +2,6 @@ package com.mycompany.myapp.service.dto;
 import java.time.ZonedDateTime;
 import javax.validation.constraints.*;
 import java.io.Serializable;
-import java.util.HashSet;
-import java.util.Set;
 import java.util.Objects;
 
 /**
@@ -16,10 +14,7 @@ public class OrderDTO implements Serializable {
     @NotNull
     private ZonedDateTime date;
 
-
-    private ClientItem client;
-
-    private Set<ProductDTO> products = new HashSet<>();
+    private Item client;
 
     public Long getId() {
         return id;
@@ -37,20 +32,12 @@ public class OrderDTO implements Serializable {
         this.date = date;
     }
 
-    public ClientItem getClient() {
+    public Item getClient() {
         return client;
     }
 
-    public void setClient(ClientItem client) {
+    public void setClient(Item client) {
         this.client = client;
-    }
-
-    public Set<ProductDTO> getProducts() {
-        return products;
-    }
-
-    public void setProducts(Set<ProductDTO> products) {
-        this.products = products;
     }
 
     @Override
@@ -79,11 +66,11 @@ public class OrderDTO implements Serializable {
         return "OrderDTO{" +
             "id=" + getId() +
             ", date='" + getDate() + "'" +
-            ", client=" + getClient() +
+            ", clientId=" + getClient() +
             "}";
     }
 
-    public static class ClientItem{
+    public static class Item{
         private Long id;
         private String abbName;
 
@@ -103,5 +90,4 @@ public class OrderDTO implements Serializable {
             this.abbName = abbName;
         }
     }
-
 }

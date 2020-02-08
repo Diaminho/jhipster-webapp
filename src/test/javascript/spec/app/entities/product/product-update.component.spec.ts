@@ -11,7 +11,7 @@ import ProductService from '@/entities/product/product.service';
 
 import CategoryService from '@/entities/category/category.service';
 
-import OrderService from '@/entities/order/order.service';
+import OrderProductService from '@/entities/order-product/order-product.service';
 
 const localVue = createLocalVue();
 
@@ -40,7 +40,7 @@ describe('Component Tests', () => {
 
           categoryService: () => new CategoryService(),
 
-          orderService: () => new OrderService()
+          orderProductService: () => new OrderProductService()
         }
       });
       comp = wrapper.vm;

@@ -31,11 +31,8 @@ public class Order implements Serializable {
     @JsonIgnoreProperties("orders")
     private Client client;
 
-    @ManyToMany
-    @JoinTable(name = "jhi_order_products",
-               joinColumns = @JoinColumn(name = "order_id", referencedColumnName = "id"),
-               inverseJoinColumns = @JoinColumn(name = "products_id", referencedColumnName = "id"))
-    private Set<Product> products = new HashSet<>();
+    @OneToMany(mappedBy = "order")
+    private Set<OrderProduct> orderProducts = new HashSet<>();
 
     // jhipster-needle-entity-add-field - JHipster will add fields here, do not remove
     public Long getId() {
@@ -72,29 +69,29 @@ public class Order implements Serializable {
         this.client = client;
     }
 
-    public Set<Product> getProducts() {
-        return products;
+    public Set<OrderProduct> getOrderProducts() {
+        return orderProducts;
     }
 
-    public Order products(Set<Product> products) {
-        this.products = products;
+    public Order orderProducts(Set<OrderProduct> orderProducts) {
+        this.orderProducts = orderProducts;
         return this;
     }
 
-    public Order addProducts(Product product) {
-        this.products.add(product);
-        product.getOrders().add(this);
+    public Order addOrderProducts(OrderProduct orderProduct) {
+        this.orderProducts.add(orderProduct);
+        orderProduct.setOrder(this);
         return this;
     }
 
-    public Order removeProducts(Product product) {
-        this.products.remove(product);
-        product.getOrders().remove(this);
+    public Order removeOrderProducts(OrderProduct orderProduct) {
+        this.orderProducts.remove(orderProduct);
+        orderProduct.setOrder(null);
         return this;
     }
 
-    public void setProducts(Set<Product> products) {
-        this.products = products;
+    public void setOrderProducts(Set<OrderProduct> orderProducts) {
+        this.orderProducts = orderProducts;
     }
     // jhipster-needle-entity-add-getters-setters - JHipster will add getters and setters here, do not remove
 

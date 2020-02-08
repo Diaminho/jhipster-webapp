@@ -15,7 +15,7 @@ import OrderService from '@/entities/order/order.service';
 
 import ClientService from '@/entities/client/client.service';
 
-import ProductService from '@/entities/product/product.service';
+import OrderProductService from '@/entities/order-product/order-product.service';
 
 const localVue = createLocalVue();
 
@@ -44,7 +44,7 @@ describe('Component Tests', () => {
 
           clientService: () => new ClientService(),
 
-          productService: () => new ProductService()
+          orderProductService: () => new OrderProductService()
         }
       });
       comp = wrapper.vm;

@@ -9,12 +9,14 @@ import { DATE_TIME_LONG_FORMAT } from '@/shared/date/filters';
 import ClientService from '../client/client.service';
 import { IClient } from '@/shared/model/client.model';
 
-import ProductService from '../product/product.service';
-import { IProduct } from '@/shared/model/product.model';
+import OrderProductService from '../order-product/order-product.service';
+import { IOrderProduct, OrderProduct } from '@/shared/model/order-product.model';
 
 import AlertService from '@/shared/alert/alert.service';
 import { IOrder, Order } from '@/shared/model/order.model';
 import OrderService from './order.service';
+import { IProduct, Product } from '@/shared/model/product.model';
+import ProductService from '@/entities/product/product.service';
 
 const validations: any = {
   order: {
@@ -33,30 +35,53 @@ export default class OrderUpdate extends Vue {
   public order: IOrder = new Order();
 
   @Inject('clientService') private clientService: () => ClientService;
-
   public clients: IClient[] = [];
 
   @Inject('productService') private productService: () => ProductService;
-
   public products: IProduct[] = [];
+
+  @Inject('orderProductService') private orderProductService: () => OrderProductService;
+
+  public orderProducts: IOrderProduct[] = [];
   public isSaving = false;
+  public showAddProduct = false;
+
+  public addedProduct: IProduct = new Product();
+  public quantity = 0;
+
+  public initOrderProducts: IOrderProduct[] = [];
 
   beforeRouteEnter(to, from, next) {
     next(vm => {
       if (to.params.orderId) {
         vm.retrieveOrder(to.params.orderId);
+        vm.retrieveOrderProducts(to.params.orderId);
       }
       vm.initRelationships();
     });
   }
 
-  created(): void {
-    this.order.products = [];
-  }
-
   public save(): void {
     this.isSaving = true;
     if (this.order.id) {
+      let opToDelete = this.initOrderProducts.filter(op => this.orderProducts.filter(op2 => op2.id === op.id).length === 0);
+      console.log('to delete op:', opToDelete);
+      opToDelete.forEach(op =>
+        this.orderProductService()
+          .delete(op.id)
+          .then()
+      );
+      this.orderProducts.forEach(op => {
+        if (op.id) {
+          this.orderProductService()
+            .update(op)
+            .then();
+        } else {
+          this.orderProductService()
+            .create(op)
+            .then();
+        }
+      });
       this.orderService()
         .update(this.order)
         .then(param => {
@@ -126,14 +151,38 @@ export default class OrderUpdate extends Vue {
       });
   }
 
-  public getSelected(selectedVals, option): any {
-    if (selectedVals) {
-      for (let i = 0; i < selectedVals.length; i++) {
-        if (option.id === selectedVals[i].id) {
-          return selectedVals[i];
-        }
-      }
+  public retrieveOrderProducts(orderId) {
+    this.orderProductService()
+      .retrieveByOrderId(orderId)
+      .then(res => {
+        this.orderProducts = res.data;
+        this.initOrderProducts = res.data;
+      });
+  }
+
+  public deleteSelected(id): void {
+    console.log('deleteSelected:', id);
+    this.orderProducts = this.orderProducts.filter(op => op.product.id != id);
+    console.log('deleted: ', this.orderProducts);
+  }
+
+  public setShowAddProduct(): void {
+    this.showAddProduct = true;
+  }
+
+  public addProduct() {
+    console.log('addProduct');
+    let foundOp = this.orderProducts.find(op => op.product.id === this.addedProduct.id);
+    if (foundOp) {
+      foundOp.quantity = this.quantity;
+    } else {
+      let op = new OrderProduct();
+      op.order = this.order;
+      op.quantity = this.quantity;
+      op.product = this.products.find(p => p.id === this.addedProduct.id);
+      this.orderProducts.push(op);
+      console.log('added: ', this.orderProducts);
+      this.showAddProduct = false;
     }
-    return option;
   }
 }

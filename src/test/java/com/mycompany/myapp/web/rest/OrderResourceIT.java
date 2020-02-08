@@ -3,7 +3,7 @@ package com.mycompany.myapp.web.rest;
 import com.mycompany.myapp.JhipsterWebappApp;
 import com.mycompany.myapp.domain.Order;
 import com.mycompany.myapp.domain.Client;
-import com.mycompany.myapp.domain.Product;
+import com.mycompany.myapp.domain.OrderProduct;
 import com.mycompany.myapp.repository.OrderRepository;
 import com.mycompany.myapp.service.OrderService;
 import com.mycompany.myapp.service.dto.OrderDTO;
@@ -14,12 +14,9 @@ import com.mycompany.myapp.service.OrderQueryService;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.data.domain.PageImpl;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.data.web.PageableHandlerMethodArgumentResolver;
 import org.springframework.http.MediaType;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
@@ -33,14 +30,12 @@ import java.time.Instant;
 import java.time.ZonedDateTime;
 import java.time.ZoneOffset;
 import java.time.ZoneId;
-import java.util.ArrayList;
 import java.util.List;
 
 import static com.mycompany.myapp.web.rest.TestUtil.sameInstant;
 import static com.mycompany.myapp.web.rest.TestUtil.createFormattingConversionService;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.hamcrest.Matchers.hasItem;
-import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
@@ -57,14 +52,8 @@ public class OrderResourceIT {
     @Autowired
     private OrderRepository orderRepository;
 
-    @Mock
-    private OrderRepository orderRepositoryMock;
-
     @Autowired
     private OrderMapper orderMapper;
-
-    @Mock
-    private OrderService orderServiceMock;
 
     @Autowired
     private OrderService orderService;
@@ -204,39 +193,6 @@ public class OrderResourceIT {
             .andExpect(jsonPath("$.[*].date").value(hasItem(sameInstant(DEFAULT_DATE))));
     }
     
-    @SuppressWarnings({"unchecked"})
-    public void getAllOrdersWithEagerRelationshipsIsEnabled() throws Exception {
-        OrderResource orderResource = new OrderResource(orderServiceMock, orderQueryService);
-        when(orderServiceMock.findAllWithEagerRelationships(any())).thenReturn(new PageImpl(new ArrayList<>()));
-
-        MockMvc restOrderMockMvc = MockMvcBuilders.standaloneSetup(orderResource)
-            .setCustomArgumentResolvers(pageableArgumentResolver)
-            .setControllerAdvice(exceptionTranslator)
-            .setConversionService(createFormattingConversionService())
-            .setMessageConverters(jacksonMessageConverter).build();
-
-        restOrderMockMvc.perform(get("/api/orders?eagerload=true"))
-        .andExpect(status().isOk());
-
-        verify(orderServiceMock, times(1)).findAllWithEagerRelationships(any());
-    }
-
-    @SuppressWarnings({"unchecked"})
-    public void getAllOrdersWithEagerRelationshipsIsNotEnabled() throws Exception {
-        OrderResource orderResource = new OrderResource(orderServiceMock, orderQueryService);
-            when(orderServiceMock.findAllWithEagerRelationships(any())).thenReturn(new PageImpl(new ArrayList<>()));
-            MockMvc restOrderMockMvc = MockMvcBuilders.standaloneSetup(orderResource)
-            .setCustomArgumentResolvers(pageableArgumentResolver)
-            .setControllerAdvice(exceptionTranslator)
-            .setConversionService(createFormattingConversionService())
-            .setMessageConverters(jacksonMessageConverter).build();
-
-        restOrderMockMvc.perform(get("/api/orders?eagerload=true"))
-        .andExpect(status().isOk());
-
-            verify(orderServiceMock, times(1)).findAllWithEagerRelationships(any());
-    }
-
     @Test
     @Transactional
     public void getOrder() throws Exception {
@@ -398,21 +354,21 @@ public class OrderResourceIT {
 
     @Test
     @Transactional
-    public void getAllOrdersByProductsIsEqualToSomething() throws Exception {
+    public void getAllOrdersByOrderProductsIsEqualToSomething() throws Exception {
         // Initialize the database
         orderRepository.saveAndFlush(order);
-        Product products = ProductResourceIT.createEntity(em);
-        em.persist(products);
+        OrderProduct orderProducts = OrderProductResourceIT.createEntity(em);
+        em.persist(orderProducts);
         em.flush();
-        order.addProducts(products);
+        order.addOrderProducts(orderProducts);
         orderRepository.saveAndFlush(order);
-        Long productsId = products.getId();
+        Long orderProductsId = orderProducts.getId();
 
-        // Get all the orderList where products equals to productsId
-        defaultOrderShouldBeFound("productsId.equals=" + productsId);
+        // Get all the orderList where orderProducts equals to orderProductsId
+        defaultOrderShouldBeFound("orderProductsId.equals=" + orderProductsId);
 
-        // Get all the orderList where products equals to productsId + 1
-        defaultOrderShouldNotBeFound("productsId.equals=" + (productsId + 1));
+        // Get all the orderList where orderProducts equals to orderProductsId + 1
+        defaultOrderShouldNotBeFound("orderProductsId.equals=" + (orderProductsId + 1));
     }
 
     /**

@@ -1,5 +1,4 @@
 package com.mycompany.myapp.domain;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
 import javax.validation.constraints.*;
@@ -46,9 +45,8 @@ public class Product implements Serializable {
                inverseJoinColumns = @JoinColumn(name = "categories_id", referencedColumnName = "id"))
     private Set<Category> categories = new HashSet<>();
 
-    @ManyToMany(mappedBy = "products")
-    @JsonIgnore
-    private Set<Order> orders = new HashSet<>();
+    @OneToMany(mappedBy = "product")
+    private Set<OrderProduct> orderProducts = new HashSet<>();
 
     // jhipster-needle-entity-add-field - JHipster will add fields here, do not remove
     public Long getId() {
@@ -136,29 +134,29 @@ public class Product implements Serializable {
         this.categories = categories;
     }
 
-    public Set<Order> getOrders() {
-        return orders;
+    public Set<OrderProduct> getOrderProducts() {
+        return orderProducts;
     }
 
-    public Product orders(Set<Order> orders) {
-        this.orders = orders;
+    public Product orderProducts(Set<OrderProduct> orderProducts) {
+        this.orderProducts = orderProducts;
         return this;
     }
 
-    public Product addOrders(Order order) {
-        this.orders.add(order);
-        order.getProducts().add(this);
+    public Product addOrderProducts(OrderProduct orderProduct) {
+        this.orderProducts.add(orderProduct);
+        orderProduct.setProduct(this);
         return this;
     }
 
-    public Product removeOrders(Order order) {
-        this.orders.remove(order);
-        order.getProducts().remove(this);
+    public Product removeOrderProducts(OrderProduct orderProduct) {
+        this.orderProducts.remove(orderProduct);
+        orderProduct.setProduct(null);
         return this;
     }
 
-    public void setOrders(Set<Order> orders) {
-        this.orders = orders;
+    public void setOrderProducts(Set<OrderProduct> orderProducts) {
+        this.orderProducts = orderProducts;
     }
     // jhipster-needle-entity-add-getters-setters - JHipster will add getters and setters here, do not remove
 

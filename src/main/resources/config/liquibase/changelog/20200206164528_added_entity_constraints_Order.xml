@@ -14,17 +14,5 @@
                                  referencedColumnNames="id"
                                  referencedTableName="client"/>
 
-        <addForeignKeyConstraint baseColumnNames="order_id"
-                                 baseTableName="jhi_order_products"
-                                 constraintName="fk_jhi_order_products_jhi_order_id"
-                                 referencedColumnNames="id"
-                                 referencedTableName="jhi_order"/>
-
-        <addForeignKeyConstraint baseColumnNames="products_id"
-                                 baseTableName="jhi_order_products"
-                                 constraintName="fk_jhi_order_products_products_id"
-                                 referencedColumnNames="id"
-                                 referencedTableName="product"/>
-        
     </changeSet>
 </databaseChangeLog>

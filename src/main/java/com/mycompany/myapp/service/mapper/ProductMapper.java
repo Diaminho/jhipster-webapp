@@ -13,8 +13,8 @@ public interface ProductMapper extends EntityMapper<ProductDTO, Product> {
 
 
     @Mapping(target = "removeCategories", ignore = true)
-    @Mapping(target = "orders", ignore = true)
-    @Mapping(target = "removeOrders", ignore = true)
+    @Mapping(target = "orderProducts", ignore = true)
+    @Mapping(target = "removeOrderProducts", ignore = true)
     Product toEntity(ProductDTO productDTO);
 
     default Product fromId(Long id) {

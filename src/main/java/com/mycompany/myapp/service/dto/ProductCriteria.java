@@ -32,7 +32,7 @@ public class ProductCriteria implements Serializable, Criteria {
 
     private LongFilter categoriesId;
 
-    private LongFilter ordersId;
+    private LongFilter orderProductsId;
 
     public ProductCriteria(){
     }
@@ -42,7 +42,7 @@ public class ProductCriteria implements Serializable, Criteria {
         this.title = other.title == null ? null : other.title.copy();
         this.price = other.price == null ? null : other.price.copy();
         this.categoriesId = other.categoriesId == null ? null : other.categoriesId.copy();
-        this.ordersId = other.ordersId == null ? null : other.ordersId.copy();
+        this.orderProductsId = other.orderProductsId == null ? null : other.orderProductsId.copy();
     }
 
     @Override
@@ -82,12 +82,12 @@ public class ProductCriteria implements Serializable, Criteria {
         this.categoriesId = categoriesId;
     }
 
-    public LongFilter getOrdersId() {
-        return ordersId;
+    public LongFilter getOrderProductsId() {
+        return orderProductsId;
     }
 
-    public void setOrdersId(LongFilter ordersId) {
-        this.ordersId = ordersId;
+    public void setOrderProductsId(LongFilter orderProductsId) {
+        this.orderProductsId = orderProductsId;
     }
 
 
@@ -105,7 +105,7 @@ public class ProductCriteria implements Serializable, Criteria {
             Objects.equals(title, that.title) &&
             Objects.equals(price, that.price) &&
             Objects.equals(categoriesId, that.categoriesId) &&
-            Objects.equals(ordersId, that.ordersId);
+            Objects.equals(orderProductsId, that.orderProductsId);
     }
 
     @Override
@@ -115,7 +115,7 @@ public class ProductCriteria implements Serializable, Criteria {
         title,
         price,
         categoriesId,
-        ordersId
+        orderProductsId
         );
     }
 
@@ -126,7 +126,7 @@ public class ProductCriteria implements Serializable, Criteria {
                 (title != null ? "title=" + title + ", " : "") +
                 (price != null ? "price=" + price + ", " : "") +
                 (categoriesId != null ? "categoriesId=" + categoriesId + ", " : "") +
-                (ordersId != null ? "ordersId=" + ordersId + ", " : "") +
+                (orderProductsId != null ? "orderProductsId=" + orderProductsId + ", " : "") +
             "}";
     }
 

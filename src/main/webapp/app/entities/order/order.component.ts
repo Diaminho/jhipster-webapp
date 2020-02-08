@@ -6,10 +6,13 @@ import { IOrder } from '@/shared/model/order.model';
 import AlertMixin from '@/shared/alert/alert.mixin';
 
 import OrderService from './order.service';
+import OrderProductService from '@/entities/order-product/order-product.service';
+import { IOrderProduct } from '@/shared/model/order-product.model';
 
 @Component
 export default class Order extends mixins(Vue2Filters.mixin, AlertMixin) {
   @Inject('orderService') private orderService: () => OrderService;
+  @Inject('orderProductService') private orderProductService: () => OrderProductService;
   private removeId: number = null;
   public itemsPerPage = 20;
   public queryCount: number = null;

@@ -14,18 +14,19 @@
                         <span>Client</span>
                     </dt>
                     <dd>
-                        <div v-if="order.client ? order.client.id: null">
+                        <div v-if="order.client">
                             <router-link :to="{name: 'ClientView', params: {clientId: order.client.id}}">{{order.client.abbName}}</router-link>
                         </div>
                     </dd>
-                    <dt>
-                        <span>Products</span>
-                    </dt>
-                    <dd>
-                        <span v-for="(products, i) in order.products" :key="products.id">{{i > 0 ? ', ' : ''}}
-                            <router-link :to="{name: 'ProductView', params: {productId: products.id}}">{{products.title}}</router-link>
-                        </span>
-                    </dd>
+                        <dt v-if="orderProducts">
+                            <span>Products</span>
+                        </dt>
+                        <dd v-if="orderProducts">
+                            <span v-for="(op, i) in orderProducts" :key="op.id">{{i > 0 ? ', ' : ''}}
+                                <router-link :to="{name: 'Product', params: {productId: op.product.id}}">{{op.product.title}}</router-link>: {{op.quantity}}
+                            </span>
+                        </dd>
+
                 </dl>
                 <button type="submit"
                         v-on:click.prevent="previousState()"

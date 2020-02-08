@@ -31,7 +31,7 @@ public class OrderCriteria implements Serializable, Criteria {
 
     private LongFilter clientId;
 
-    private LongFilter productsId;
+    private LongFilter orderProductsId;
 
     public OrderCriteria(){
     }
@@ -40,7 +40,7 @@ public class OrderCriteria implements Serializable, Criteria {
         this.id = other.id == null ? null : other.id.copy();
         this.date = other.date == null ? null : other.date.copy();
         this.clientId = other.clientId == null ? null : other.clientId.copy();
-        this.productsId = other.productsId == null ? null : other.productsId.copy();
+        this.orderProductsId = other.orderProductsId == null ? null : other.orderProductsId.copy();
     }
 
     @Override
@@ -72,12 +72,12 @@ public class OrderCriteria implements Serializable, Criteria {
         this.clientId = clientId;
     }
 
-    public LongFilter getProductsId() {
-        return productsId;
+    public LongFilter getOrderProductsId() {
+        return orderProductsId;
     }
 
-    public void setProductsId(LongFilter productsId) {
-        this.productsId = productsId;
+    public void setOrderProductsId(LongFilter orderProductsId) {
+        this.orderProductsId = orderProductsId;
     }
 
 
@@ -94,7 +94,7 @@ public class OrderCriteria implements Serializable, Criteria {
             Objects.equals(id, that.id) &&
             Objects.equals(date, that.date) &&
             Objects.equals(clientId, that.clientId) &&
-            Objects.equals(productsId, that.productsId);
+            Objects.equals(orderProductsId, that.orderProductsId);
     }
 
     @Override
@@ -103,7 +103,7 @@ public class OrderCriteria implements Serializable, Criteria {
         id,
         date,
         clientId,
-        productsId
+        orderProductsId
         );
     }
 
@@ -113,7 +113,7 @@ public class OrderCriteria implements Serializable, Criteria {
                 (id != null ? "id=" + id + ", " : "") +
                 (date != null ? "date=" + date + ", " : "") +
                 (clientId != null ? "clientId=" + clientId + ", " : "") +
-                (productsId != null ? "productsId=" + productsId + ", " : "") +
+                (orderProductsId != null ? "orderProductsId=" + orderProductsId + ", " : "") +
             "}";
     }
 
