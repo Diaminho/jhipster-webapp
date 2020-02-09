@@ -29,14 +29,13 @@ public interface OrderMapper extends EntityMapper<OrderDTO, Order> {
     }
 
     default OrderDTO.Item clientToItem(Client client) {
-        if ( client == null ) {
+        if ( client == null || !client.isFieldsFilled() ) {
             return null;
         }
 
         OrderDTO.Item clientItem = new OrderDTO.Item();
-
         clientItem.setId( client.getId() );
-        String abbName = client.getLastName() + " " +
+        final String abbName = client.getLastName() + " " +
             client.getFirstName().charAt(0) +
             "." +
             client.getMiddleName().charAt(0) +

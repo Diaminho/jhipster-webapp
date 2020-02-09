@@ -45,7 +45,7 @@ public class Client implements Serializable {
     @Column(name = "phone_number", length = 30, nullable = false, unique = true)
     private String phoneNumber;
 
-    
+
     @Lob
     @Column(name = "photo", nullable = false)
     private byte[] photo;
@@ -198,6 +198,10 @@ public class Client implements Serializable {
         this.orders = orders;
     }
     // jhipster-needle-entity-add-getters-setters - JHipster will add getters and setters here, do not remove
+
+    public boolean isFieldsFilled() {
+        return !(this.id == null || this.firstName == null || this.middleName == null || this.lastName == null);
+    }
 
     @Override
     public boolean equals(Object o) {

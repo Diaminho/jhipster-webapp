@@ -22,6 +22,9 @@ const validations: any = {
   order: {
     date: {
       required
+    },
+    client: {
+      required
     }
   }
 };
@@ -56,6 +59,9 @@ export default class OrderUpdate extends Vue {
       if (to.params.orderId) {
         vm.retrieveOrder(to.params.orderId);
         vm.retrieveOrderProducts(to.params.orderId);
+      } else {
+        vm.order.client = {};
+        vm.order.orderProducts = [];
       }
       vm.initRelationships();
     });
@@ -86,7 +92,7 @@ export default class OrderUpdate extends Vue {
         .update(this.order)
         .then(param => {
           this.isSaving = false;
-          this.$router.go(-1);
+          this.$router.push('/order');
           const message = 'A Order is updated with identifier ' + param.id;
           this.alertService().showAlert(message, 'info');
         });
@@ -95,7 +101,7 @@ export default class OrderUpdate extends Vue {
         .create(this.order)
         .then(param => {
           this.isSaving = false;
-          this.$router.go(-1);
+          this.$router.push('/order');
           const message = 'A Order is created with identifier ' + param.id;
           this.alertService().showAlert(message, 'success');
         });
@@ -174,8 +180,17 @@ export default class OrderUpdate extends Vue {
     this.showAddProduct = true;
   }
 
-  public addProduct() {
-    console.log('addProduct');
+  public addProduct(quantity) {
+    this.quantity = quantity;
+    console.log('addProduct', quantity);
+    if (this.quantity < 1) {
+      alert('Quantity must be at least 1');
+      return;
+    }
+    if (!this.addedProduct.id) {
+      alert('Product must be selected');
+      return;
+    }
     let foundOp = this.orderProducts.find(op => op.product.id === this.addedProduct.id);
     if (foundOp) {
       foundOp.quantity = this.quantity;
@@ -187,6 +202,11 @@ export default class OrderUpdate extends Vue {
       this.orderProducts.push(op);
       console.log('added: ', this.orderProducts);
       this.showAddProduct = false;
+      this.closeDialog();
     }
+  }
+
+  public closeDialog(): void {
+    (<any>this.$refs.addProduct).hide();
   }
 }

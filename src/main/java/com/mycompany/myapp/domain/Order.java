@@ -27,11 +27,12 @@ public class Order implements Serializable {
     @Column(name = "date", nullable = false)
     private ZonedDateTime date;
 
+    @NotNull
     @ManyToOne
     @JsonIgnoreProperties("orders")
     private Client client;
 
-    @OneToMany(mappedBy = "order")
+    @OneToMany(mappedBy = "order", cascade = CascadeType.REMOVE, orphanRemoval = true)
     private Set<OrderProduct> orderProducts = new HashSet<>();
 
     // jhipster-needle-entity-add-field - JHipster will add fields here, do not remove

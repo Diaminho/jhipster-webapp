@@ -76,7 +76,7 @@ export default class ClientUpdate extends mixins(JhiDataUtils) {
         .update(this.client)
         .then(param => {
           this.isSaving = false;
-          this.$router.go(-1);
+          this.$router.push('/client');
           const message = 'A Client is updated with identifier ' + param.id;
           this.alertService().showAlert(message, 'info');
         });
@@ -85,7 +85,7 @@ export default class ClientUpdate extends mixins(JhiDataUtils) {
         .create(this.client)
         .then(param => {
           this.isSaving = false;
-          this.$router.go(-1);
+          this.$router.push('/client');
           const message = 'A Client is created with identifier ' + param.id;
           this.alertService().showAlert(message, 'success');
         });

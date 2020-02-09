@@ -48,7 +48,7 @@ export default class CategoryUpdate extends Vue {
         .update(this.category)
         .then(param => {
           this.isSaving = false;
-          this.$router.go(-1);
+          this.$router.push('/category');
           const message = 'A Category is updated with identifier ' + param.id;
           this.alertService().showAlert(message, 'info');
         });
@@ -57,7 +57,7 @@ export default class CategoryUpdate extends Vue {
         .create(this.category)
         .then(param => {
           this.isSaving = false;
-          this.$router.go(-1);
+          this.$router.push('/category');
           const message = 'A Category is created with identifier ' + param.id;
           this.alertService().showAlert(message, 'success');
         });

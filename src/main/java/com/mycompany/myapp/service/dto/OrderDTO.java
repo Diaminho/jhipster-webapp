@@ -14,6 +14,7 @@ public class OrderDTO implements Serializable {
     @NotNull
     private ZonedDateTime date;
 
+    @NotNull
     private Item client;
 
     public Long getId() {

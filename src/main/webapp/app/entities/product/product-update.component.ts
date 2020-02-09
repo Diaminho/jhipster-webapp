@@ -71,7 +71,7 @@ export default class ProductUpdate extends mixins(JhiDataUtils) {
         .update(this.product)
         .then(param => {
           this.isSaving = false;
-          this.$router.go(-1);
+          this.$router.push('/product');
           const message = 'A Product is updated with identifier ' + param.id;
           this.alertService().showAlert(message, 'info');
         });
@@ -80,7 +80,7 @@ export default class ProductUpdate extends mixins(JhiDataUtils) {
         .create(this.product)
         .then(param => {
           this.isSaving = false;
-          this.$router.go(-1);
+          this.$router.push('/product');
           const message = 'A Product is created with identifier ' + param.id;
           this.alertService().showAlert(message, 'success');
         });

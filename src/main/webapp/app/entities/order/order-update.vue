@@ -1,3 +1,5 @@
+
+
 <template>
     <div class="row justify-content-center">
         <div class="col-8">
@@ -29,31 +31,25 @@
                     </div>
                     <div class="form-group" v-if="order.client">
                         <label class="form-control-label" for="order-client">Client</label>
-                        <select class="form-control" id="order-client" name="client" v-model="order.client.id">
-                            <option v-bind:value="null"></option>
+                        <select class="form-control" id="order-client" name="client" v-model="order.client.id" required>
                             <option v-bind:value="clientOption.id" v-for="clientOption in clients" :key="clientOption.id">{{clientOption.lastName}}
                                 {{clientOption.firstName}}
                             </option>
                         </select>
+                        <div v-if="$v.order.client.$anyDirty && $v.order.client.$invalid">
+                            <small class="form-text text-danger" v-if="!$v.order.client.required">
+                                This field is required.
+                            </small>
+                        </div>
                     </div>
                     <dt v-if="orderProducts">
                         <span>Products</span>
-                        <button type="button" id="add-product-button" v-on:click="setShowAddProduct(true)">
-                            <span>Add</span></button>
-                        <div class="form-group" v-if="showAddProduct">
-                            <label class="form-control-label" for="add-product">Select product</label>
-                            <select class="form-control" id="add-product" name="product" v-model="addedProduct">
-                                <option v-bind:value="{id: null}"></option>
-                                <option v-bind:value="{id: productOption.id}" v-for="productOption in products" :key="productOption.id">{{productOption.title}}</option>
-                            </select>
-                        </div>
-                        <div class="form-group" v-if="showAddProduct">
-                            <label class="form-control-label" for="quantity">Pick quantity</label>
-                            <input type="number" class="form-control" name="quantity" id="quantity" v-model="quantity"/>
-                        </div>
-                        <button v-if="showAddProduct" type="button" id="add-product-save" v-on:click="addProduct()">
-                            <span>Add product to order</span>
-                        </button>
+                        <br/>
+                        <b-button
+                                  class="btn btn-secondary"
+                                  v-b-modal.addProduct>
+                            <span class="d-none d-md-inline">Add product</span>
+                        </b-button>
                     </dt>
                     <dd v-if="orderProducts">
                             <span v-for="op in orderProducts" :key="op.id">
@@ -75,6 +71,25 @@
                 </div>
             </form>
         </div>
+        <b-modal ref="addProduct" id="addProduct" >
+            <span slot="modal-title">Add product</span>
+            <div class="modal-body">
+                <div class="form-group">
+                    <label class="form-control-label" for="add-product">Select product</label>
+                    <select class="form-control" id="add-product" name="product" v-model="addedProduct">
+                        <option v-bind:value="{id: productOption.id}" v-for="productOption in products" :key="productOption.id">{{productOption.title}}</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" for="quantity">Pick quantity</label>
+                    <input type="number" min="1" class="form-control" name="quantity" id="quantity" v-model="quantity"/>
+                </div>
+            </div>
+            <div slot="modal-footer">
+                <button type="button" class="btn btn-secondary" v-on:click="closeDialog()">Cancel</button>
+                <button type="button" class="btn btn-primary" id="jhi-confirm-delete-category" v-on:click="addProduct(quantity)">Add</button>
+            </div>
+        </b-modal>
     </div>
 </template>
 <script lang="ts" src="./order-update.component.ts">

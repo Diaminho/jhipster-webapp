@@ -63,29 +63,12 @@
                                 <font-awesome-icon icon="pencil-alt"></font-awesome-icon>
                                 <span class="d-none d-md-inline">Edit</span>
                             </router-link>
-                            <b-button v-on:click="prepareRemove(client)"
-                                   variant="danger"
-                                   class="btn btn-sm"
-                                   v-b-modal.removeEntity>
-                                <font-awesome-icon icon="times"></font-awesome-icon>
-                                <span class="d-none d-md-inline">Delete</span>
-                            </b-button>
                         </div>
                     </td>
                 </tr>
                 </tbody>
             </table>
         </div>
-        <b-modal ref="removeEntity" id="removeEntity" >
-            <span slot="modal-title"><span id="jhipsterWebappApp.client.delete.question">Confirm delete operation</span></span>
-            <div class="modal-body">
-                <p id="jhi-delete-client-heading" >Are you sure you want to delete this Client?</p>
-            </div>
-            <div slot="modal-footer">
-                <button type="button" class="btn btn-secondary" v-on:click="closeDialog()">Cancel</button>
-                <button type="button" class="btn btn-primary" id="jhi-confirm-delete-client" v-on:click="removeClient()">Delete</button>
-            </div>
-        </b-modal>
         <div v-show="clients && clients.length > 0">
             <div class="row justify-content-center">
                 <jhi-item-count :page="page" :total="queryCount" :itemsPerPage="itemsPerPage"></jhi-item-count>
